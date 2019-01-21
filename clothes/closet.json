@@ -1,0 +1,52 @@
+
+/*class Clothing {
+	constructor(name, warmth) {
+		this.name = name;
+		this.warmth = warmth;
+	}
+}
+*/
+
+{
+    "data": {
+        "BEIGE_CREW_NECK": "1" 
+    }
+}
+/*
+
+const Tops  = {
+    BEIGE_CREW_NECK: new Clothing("beige crew neck",1),
+    BLACK_V_NECK: new Clothing("black v neck",1),
+    BLUE_V_NECK: new Clothing("blue v neck",1),
+    MAROON_V_NECK: new Clothing("maroon v neck",1),
+    CAL_SHIRT: new Clothing("cal shirt",1)
+    ("grey henley",1): ,
+    "striped pocket tee",1): ,
+    "white striped pocket tee",1) ,
+    "ralph lauren long sleeve",2) ,
+    "green henley long sleeve",2) ,
+    "tamasha long sleeve",2) ,
+    "navy sweater",3) ,
+    "grey sweater",3) ,
+    "maroon sweater",3) ,
+    "grey cardigan",4) ,
+    "red flannel",3) ,
+    "solid blue button up",2) ,
+    "solid maroon button up",2) ,
+    "white floral button up",2),
+    "dotted blue button up",2) ,
+    "poplin collar button up",2) ,
+    "black jeans",1) ,
+    "blue jeans",1) ,
+    "khakis",1) ,
+    "adidas joggers",1) ,
+    "navy joggers",2) ,
+    "olive shirt jacket",2) ,
+    "navy field mechanic jacket",5) ,
+    "navy patagonia",4) ,
+    "green zahanat jacket",3) ,
+    "black members only ",4) ,
+    "cal hoodie",4) ,
+    "grey peacoat",6) ,
+}
+*/
