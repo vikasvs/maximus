@@ -1,93 +1,97 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Slider } from 'react-native';
-import store from 'react-native-simple-store';
-import outfitsCombinations from './clothes/outfits.json'; 
+import outfits from './clothes/outfits.json'; 
 import clothes from './clothes/closet.json'; 
 import keys from './keys.js';
+
+/**
+Framework:
+Need a function for getting data 
+need weather funcitonailty 
+geolocation
+rendering
+algorithm to determine which clothes to show
+*/
+
+/**
+construvtor
+render
+didmount
+didupdate
+unmount
+*/
 
 export default class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      total : parseInt(Math.random() * outfitsCombinations.length),
       comfort: 2,
       style: 2,
       formal: 2,
-      hooded: 1,
+      warmth: 1,
+      waterproof: 1,
       closet: {}
     }
   }
 
-  /*
-   fetch('./data/data.json')
-.then((response) => response.json())
-.then((findresponse)=>{
-  console.log(findresponse.title)
-  this.setState({
-    data:findresponse.title,
-  })
-})
-  */
-/*
-  fetch("./clothes/closet.json")
-    .then(function(response) {
-        response.json()
-        console.log(response.json())
-  })*/
 
-  /*componentWillMount(){
-      this.refreshWeather()
-      store.get("closet").then(closet => {
-          if (!closet) {
-            fetch('./clothes/closet.json')
-            .then((response) => response.json())
-            store.save("closet", clothes)
-            closet = clothes;
-          }
-          this.setState({closet: closet})
+  getData(){
+    function getMoviesFromApiAsync() {
+      return fetch('clothes/outfits.json')
+        .then((response) => response.json())
+        .then((responseJson) => {
+          return responseJson.movies;
         })
-    .catch(error => console.error(error.message));
-
-  }*/
-  componentDidMount() {
-    this.refreshWeather() 
-    this.getClothesData()
+        .catch((error) => {
+          console.error(error);
+        });
+    } 
   }
-
 
   getClothesData = () => {
     this.setState({closet: clothes})
 
   }
+  componentWillmount(){
+    this.refreshWeather()
+  }
 
+  componentDidMount() {
+    this.refreshWeather() 
+    this.getClothesData()
+  }
+
+  
   componentWillUnmount(){
     store.update("closet", this.state.closet);
   } 
- 
-  getCurrentLocation(options) {
+
+
+/**stack overflow https://stackoverflow.com/questions/44427908/catch-geolocation-error-async-await*/
+  getLocation(options) {
     return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, 
-          ({code, message}) =>
-            reject(Object.assign(new Error(message), {name: "PositionError", code})),
-          options);
-    });
-  }
+      navigator.geolocation.getCurrentPosition(resolve, ({code, message}) =>
+        reject(Object.assign(new Error(message), {name: "PositionError", code})),
+        options);
+      });
+};
+
+
 
   async refreshWeather(){
-    try {
 
-      let position = await this.getCurrentLocation({ enableHighAccuracy: true, 
+    try {
+      let position = await this.getLocation({ enableHighAccuracy: true, 
                                                       timeout: 20000, 
                                                       maximumAge: 800 });
       let lat = position.coords.latitude;
       let lon = position.coords.longitude;
       console.log(keys.REACT_APP_WEATHER_API_KEY)
       let api = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${keys.REACT_APP_WEATHER_API_KEY}` 
-      
       let resp = await fetch(api)
       console.log(resp)
       let post = await resp.json()
-      let temp = TempConverter(post.main.temp)
+      let temp = post.main.temp
       let minTemp = TempConverter(post.main["temp_min"])
       let maxTemp = TempConverter(post.main["temp_max"])
       let weather = post.weather[0].description
@@ -97,48 +101,22 @@ export default class App extends React.Component {
     }
   }
 
-tempToWarmth(t){
-    if (t < 35)
-      return 9
-    if (t < 40)
-      return 8
-    if (t < 45)
-      return 7
-    if (t < 50)
-      return 6
-    if (t < 55)
-      return 5
-    if (t < 60)
-      return 4
-    if (t < 65)
-      return 3
-    if (t < 70)
-      return 2
-    if (t < 75)
-      return 1.5
-    if (t < 80)
-      return 1
-    else
-      return 0
-  }
 
+TempConverter(t){
+  return t * 9/5 - 459.67
+}
 
-  availability(outfit) {
-    if (this.state.closet[outfit.top] == 0 || this.state.closet[outfit.bottom] == 0) {
-      return false
-    }
-    return true
-  }
-
-
+r(){
+    return Math.random() > 0.5
+}
 
   render() {
     let outfit;
-    for (let i = 0; i < outfitsCombinations.length; i++){
-      let j = (i + this.state.total) % outfitsCombinations.length;
+    for (let i = 0; i < outfits.length; i++){
+      let j = (i + this.state.total) % outfits.length;
 
-      if (this.availability(outfitsCombinations[j])){
-        outfit = outfitsCombinations[j];
+      if (this.availability(outfits[j])){
+        outfit = outfits[j];
         break;
       }
     }
@@ -162,7 +140,7 @@ tempToWarmth(t){
           value={this.state.comfort}
           onSlidingComplete={val => this.setState({ 
             comfort: val,
-            total : parseInt(Math.random() * outfitsCombinations.length)
+            total : parseInt(Math.random() * outfits.length)
           })}
         />
         <Text> Style </Text>
@@ -174,7 +152,7 @@ tempToWarmth(t){
           value={this.state.style}
           onSlidingComplete={val => this.setState({ 
             style: val,
-            total : parseInt(Math.random() * outfitsCombinations.length)
+            total : parseInt(Math.random() * outfits.length)
           })}
         />
         <Text> Formalness </Text>
@@ -186,7 +164,7 @@ tempToWarmth(t){
           value={this.state.formal}
           onSlidingComplete={val => this.setState({ 
             formal: val,
-            total : parseInt(Math.random() * outfitsCombinations.length)
+            total : parseInt(Math.random() * outfits.length)
           })}
         />  
         <Text> Waterproof </Text>
@@ -198,13 +176,13 @@ tempToWarmth(t){
           value={this.state.hooded}
           onSlidingComplete={val => this.setState({ 
             hooded: val,
-            total : parseInt(Math.random() * outfitsCombinations.length)
+            total : parseInt(Math.random() * outfits.length)
           })}
         />      
 
         <View style={styles.button}>
           <Button
-            onPress={() => this.setState({total : parseInt(Math.random() * outfitsCombinations.length)})}
+            onPress={() => this.setState({total : parseInt(Math.random() * outfits.length)})}
             title="Refresh"
           />
           <Button
@@ -222,7 +200,7 @@ tempToWarmth(t){
             onPress={() => {
                   this.setState({
                       inventory: originalInventory,
-                      total : parseInt(Math.random() * outfitsCombinations.length)
+                      total : parseInt(Math.random() * outfits.length)
                     })
             }}
             title="Launder"
@@ -234,14 +212,6 @@ tempToWarmth(t){
 }
 
 
-
-function TempConverter(t){
-  return t * 9/5 - 459.67
-}
-
-function r(){
-    return Math.random() > 0.5
-}
 
 function Outfit(props){
   return (
