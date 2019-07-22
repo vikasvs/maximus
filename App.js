@@ -52,7 +52,7 @@ export default class App extends React.Component {
     this.setState({closet: clothes})
 
   }
-  componentWillmount(){
+  componentWillMount(){
     this.refreshWeather()
   }
 
@@ -74,7 +74,7 @@ export default class App extends React.Component {
         reject(Object.assign(new Error(message), {name: "PositionError", code})),
         options);
       });
-};
+  };
 
 
 
@@ -91,7 +91,7 @@ export default class App extends React.Component {
       let resp = await fetch(api)
       console.log(resp)
       let post = await resp.json()
-      let temp = post.main.temp
+      let temp = TempConverter(post.main.temp)
       let minTemp = TempConverter(post.main["temp_min"])
       let maxTemp = TempConverter(post.main["temp_max"])
       let weather = post.weather[0].description
@@ -101,14 +101,6 @@ export default class App extends React.Component {
     }
   }
 
-
-TempConverter(t){
-  return t * 9/5 - 459.67
-}
-
-r(){
-    return Math.random() > 0.5
-}
 
   render() {
     let outfit;
@@ -211,6 +203,13 @@ r(){
   }
 }
 
+function TempConverter(t){
+  return t * 9/5 - 459.67
+}
+
+function r(){
+    return Math.random() > 0.5
+}
 
 
 function Outfit(props){
