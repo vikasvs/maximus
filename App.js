@@ -3,7 +3,12 @@ import { StyleSheet, Text, View, Button, Slider } from 'react-native';
 import outfits from './clothes/outfits.json'; 
 import clothes from './clothes/closet.json'; 
 import keys from './keys.js';
+/**
+Debbuging:
 
+enable remote debug in JS
+command option i
+/*
 /**
 Framework:
 Need a function for getting data 
