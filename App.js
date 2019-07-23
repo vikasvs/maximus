@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Button, Slider } from 'react-native';
 import outfits from './clothes/outfits.json'; 
 import clothes from './clothes/closet.json'; 
 import keys from './keys.js';
+import store from 'react-native-simple-store';
+
 /**
 Debbuging:
 enable remote debug in JS
@@ -32,16 +34,20 @@ export default class App extends React.Component {
       closet: {}
     }
     this.getWeather
-
+    store.get("closet")
+      .then((closet) => {
+         store.save("closet", clothes)
+         closet = clothes;
+      console.log("opening closet")
+      this.setState({closet: closet})
+    })
+    .catch(error => console.error(error.message));
   }
 
 
   getClothesData = () => {
     this.setState({closet: clothes})
 
-  }
-  componentWillMount(){
-    this.getWeather()
   }
 
   componentDidMount() {
@@ -51,6 +57,7 @@ export default class App extends React.Component {
 
   
   componentWillUnmount(){
+    store.update("closet", this.state.closet)
     /** need to update closet - not sure how to get a wrapper for data yet*/
   } 
 
@@ -62,7 +69,7 @@ export default class App extends React.Component {
         reject(Object.assign(new Error(message), {name: "PositionError", code})),
         options);
       });
-  };
+  }
 
 
   async getWeather(){
@@ -70,37 +77,46 @@ export default class App extends React.Component {
       let position = await this.getLocation({ enableHighAccuracy: true, 
                                                       timeout: 20000, 
                                                       maximumAge: 800 });
-      let lat = position.coords.latitude;
-      let lon = position.coords.longitude;
+      var lat = position.coords.latitude;
+      var lon = position.coords.longitude;
       console.log(keys.REACT_APP_WEATHER_API_KEY)
-      let api = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${keys.REACT_APP_WEATHER_API_KEY}` 
-      let resp = await fetch(api)
+      var api = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${keys.REACT_APP_WEATHER_API_KEY}` 
+      var resp = await fetch(api)
       console.log(resp)
-      let post = await resp.json()
-      let temp = TempConverter(post.main.temp)
-      let minTemp = TempConverter(post.main["temp_min"])
-      let maxTemp = TempConverter(post.main["temp_max"])
-      let weather = post.weather[0].description
+      var post = await resp.json()
+      var temp = TempConverter(post.main.temp)
+      var minTemp = TempConverter(post.main["temp_min"])
+      var maxTemp = TempConverter(post.main["temp_max"])
+      var weather = post.weather[0].description
       this.setState({temp, minTemp, maxTemp, weather, lat, lon})
     } catch (e) {
         console.log('api key error')
     }
   }
 
+/**
+  algo(outfit){
+    return (outfit.style === this.state.quality) && (!this.state.temp)
+  }
+*/
+  
   availability(outfit){
     if (this.state.closet[outfit.top] < 1 || this.state.closet[outfit.bottom] <1)
       return false
 
     return true
   }
+  
+  requirements(outfit) {
+    if (this.state.closet(outit.notselected) == 0)
+      return true
+  }
 
   render() {
     let outfit;
     for (let i = 0; i < outfits.length; i++){
-      let j = (i + this.state.total) % outfits.length;
-
-      if (this.availability(outfits[j])){
-        outfit = outfits[j];
+      if (this.availability(i) && this.requirements(i)) {
+        outfit = outfits[i];
         break;
       }
     }
@@ -112,7 +128,7 @@ export default class App extends React.Component {
         {outfit 
           ? <Outfit {...outfit} />
           : (<View style={styles.center}>
-              <Text>nothing available</Text>
+              <Text>gdam where are ur clothes u shit</Text>
              </View>)
         }
         
@@ -125,15 +141,19 @@ export default class App extends React.Component {
           value={this.state.style}
           onSlidingComplete={val => this.setState({ 
             style: val,
-            total : parseInt(Math.random() * outfits.length)
           })}
         />
         
         <View style={styles.button}>
           <Button
-            onPress={() => this.setState({total : parseInt(Math.random() * outfits.length)})}
+            onPress={() => {
+              let outfits = {...this.state.outfits}
+              outfits -=1;
+              this.setState({outfits: outfits});
+            }}
             title="Refresh"
           />
+
           <Button
             onPress={() => {
               if (outfit){

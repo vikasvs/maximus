@@ -3,12 +3,16 @@
     	"top": "beige shirt ",
     	"bottom": "black jeans",
     	"jacket" : "members only jacket",
-    	"style" : 3
+    	"style" : 2,
+        "warmth": 3,
+        "notselected" : 0
     },
     {
         "top": "olive shirt ",
         "bottom": "black jeans",
         "jacket" : "null",
-        "style" : 3
+        "style" : 2,
+        "warmth": 3,
+        "notselected" : 0
     }
 ]
