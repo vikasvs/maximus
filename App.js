@@ -101,6 +101,7 @@ export default class App extends React.Component {
 */
   
   availability(outfit){
+    console.log(outfit)
     if (this.state.closet[outfit.top] < 1 || this.state.closet[outfit.bottom] <1)
       return false
 
@@ -117,7 +118,7 @@ export default class App extends React.Component {
 
   render() {
     let outfit;
-    for (let i = 0; i < outfits.length; i++){
+    for (var i = 0; i < outfits.length; i++){
       if (this.availability(outfits[i]) && this.requirements(outfits[i])) {
         outfit = outfits[i];
         console.log(outfit)
@@ -153,9 +154,13 @@ export default class App extends React.Component {
           <Button
             onPress={() => {
               if (outfit){
-                store.update('notselected', {notselected: 1})}
+                i += 1
                 console.log('updated')
-            }}
+                console.log(outfit)
+                let closet = {...this.state.closet};
+                this.setState({closet: closet});
+
+            }}}
             title="Refresh"
           />
 
