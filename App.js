@@ -5,26 +5,20 @@ import clothes from './clothes/closet.json';
 import keys from './keys.js';
 /**
 Debbuging:
-
 enable remote debug in JS
 command option i
 /*
-/**
-Framework:
-Need a function for getting data 
-need weather funcitonailty 
-geolocation
-rendering
-algorithm to determine which clothes to show
-*/
 
 /**
-construvtor
-render
-didmount
-didupdate
-unmount
+Framework:
+1. Constructor and lifecycle
+2. Wrapper for AsyncStorage and mainting json data
+2. geolocation+weather using API
+4. Basic output of clothes
+5. Algorithm to weight clothing and wather 
+6. UI/Rendering
 */
+
 
 export default class App extends React.Component {
   constructor() {
@@ -37,38 +31,27 @@ export default class App extends React.Component {
       waterproof: 1,
       closet: {}
     }
+    this.getWeather
+
   }
 
-
-  getData(){
-    function getMoviesFromApiAsync() {
-      return fetch('clothes/outfits.json')
-        .then((response) => response.json())
-        .then((responseJson) => {
-          return responseJson.movies;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    } 
-  }
 
   getClothesData = () => {
     this.setState({closet: clothes})
 
   }
   componentWillMount(){
-    this.refreshWeather()
+    this.getWeather()
   }
 
   componentDidMount() {
-    this.refreshWeather() 
+    this.getWeather() 
     this.getClothesData()
   }
 
   
   componentWillUnmount(){
-    store.update("closet", this.state.closet);
+    /** need to update closet - not sure how to get a wrapper for data yet*/
   } 
 
 
@@ -82,9 +65,7 @@ export default class App extends React.Component {
   };
 
 
-
-  async refreshWeather(){
-
+  async getWeather(){
     try {
       let position = await this.getLocation({ enableHighAccuracy: true, 
                                                       timeout: 20000, 
@@ -106,6 +87,12 @@ export default class App extends React.Component {
     }
   }
 
+  availability(outfit){
+    if (this.state.closet[outfit.top] < 1 || this.state.closet[outfit.bottom] <1)
+      return false
+
+    return true
+  }
 
   render() {
     let outfit;
@@ -128,23 +115,12 @@ export default class App extends React.Component {
               <Text>nothing available</Text>
              </View>)
         }
-        <Text style={{marginTop: 20}}> Comfort </Text>
-        <Slider 
-          style={styles.slider}
-          minimumValue={1}
-          maximumValue={4}
-          step={1}
-          value={this.state.comfort}
-          onSlidingComplete={val => this.setState({ 
-            comfort: val,
-            total : parseInt(Math.random() * outfits.length)
-          })}
-        />
+        
         <Text> Style </Text>
          <Slider 
           style={styles.slider}
           minimumValue={1}
-          maximumValue={4}
+          maximumValue={3}
           step={1}
           value={this.state.style}
           onSlidingComplete={val => this.setState({ 
@@ -152,31 +128,7 @@ export default class App extends React.Component {
             total : parseInt(Math.random() * outfits.length)
           })}
         />
-        <Text> Formalness </Text>
-        <Slider 
-          style={styles.slider}
-          minimumValue={1}
-          maximumValue={4}
-          step={1}
-          value={this.state.formal}
-          onSlidingComplete={val => this.setState({ 
-            formal: val,
-            total : parseInt(Math.random() * outfits.length)
-          })}
-        />  
-        <Text> Waterproof </Text>
-        <Slider 
-          style={styles.slider}
-          minimumValue={1}
-          maximumValue={2}
-          step={1}
-          value={this.state.hooded}
-          onSlidingComplete={val => this.setState({ 
-            hooded: val,
-            total : parseInt(Math.random() * outfits.length)
-          })}
-        />      
-
+        
         <View style={styles.button}>
           <Button
             onPress={() => this.setState({total : parseInt(Math.random() * outfits.length)})}
@@ -185,23 +137,15 @@ export default class App extends React.Component {
           <Button
             onPress={() => {
               if (outfit){
-                let inventory = {...this.state.inventory};
-                inventory[outfit.top] -= 1;
-                inventory[outfit.bottom] -= 1;
-                this.setState({inventory: inventory});
+                let closet = {...this.state.closet};
+                closet[outfit.top] -= 1;
+                closet[outfit.bottom] -= 1;
+                this.setState({closet: closet});
               }
             }}
             title="Wear"
           />
-          <Button
-            onPress={() => {
-                  this.setState({
-                      inventory: originalInventory,
-                      total : parseInt(Math.random() * outfits.length)
-                    })
-            }}
-            title="Launder"
-          />
+          
         </View>
       </View>
     );
@@ -227,7 +171,6 @@ function Outfit(props){
     </View>
   )
 }
-
 
 const styles = StyleSheet.create({
   container: {

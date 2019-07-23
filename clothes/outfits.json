@@ -1,13 +1,14 @@
-{
-    "outfits": {
+[
+    {
     	"top": "beige shirt ",
     	"bottom": "black jeans",
     	"jacket" : "members only jacket",
-    	"comfort" : 2,
-    	"style" : 4,
-    	"formal" : 1,
-    	"hooded" : 1,
-    	"warmth" : 1
-
+    	"style" : 3
+    },
+    {
+        "top": "olive shirt ",
+        "bottom": "black jeans",
+        "jacket" : "null",
+        "style" : 3
     }
-}
+]

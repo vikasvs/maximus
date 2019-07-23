@@ -1,26 +1,24 @@
-
-/*class Clothing {
-	constructor(name, warmth) {
-		this.name = name;
-		this.warmth = warmth;
-	}
-}
-*/
-
 {
-    "data": {
-        "BEIGE_CREW_NECK": "1" 
-    }
+    "beige shirt": 1,
+    "olive shirt": 1,
+    "black jeans": 3, 
+    "black mo jacket": 20
 }
-/*
 
-const Tops  = {
+
+
+
+    /*class Clothing {
+        constructor(name, warmth) {
+            this.name = name;
+ 
     BEIGE_CREW_NECK: new Clothing("beige crew neck",1),
     BLACK_V_NECK: new Clothing("black v neck",1),
     BLUE_V_NECK: new Clothing("blue v neck",1),
     MAROON_V_NECK: new Clothing("maroon v neck",1),
     CAL_SHIRT: new Clothing("cal shirt",1)
     ("grey henley",1): ,
+    "grey henley",1
     "striped pocket tee",1): ,
     "white striped pocket tee",1) ,
     "ralph lauren long sleeve",2) ,
@@ -45,8 +43,8 @@ const Tops  = {
     "navy field mechanic jacket",5) ,
     "navy patagonia",4) ,
     "green zahanat jacket",3) ,
-    "black members only ",4) ,
-    "cal hoodie",4) ,
-    "grey peacoat",6) ,
+    "black members only ",30) ,
+    "cal hoodie": 4
+    "grey peacoat": 30
 }
 */
