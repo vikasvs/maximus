@@ -107,16 +107,20 @@ export default class App extends React.Component {
     return true
   }
   
+
   requirements(outfit) {
-    if (this.state.closet(outit.notselected) == 0)
-      return true
+    if (outfit.notselected != 0)
+      return false
+
+    return true
   }
 
   render() {
     let outfit;
     for (let i = 0; i < outfits.length; i++){
-      if (this.availability(i) && this.requirements(i)) {
+      if (this.availability(outfits[i]) && this.requirements(outfits[i])) {
         outfit = outfits[i];
+        console.log(outfit)
         break;
       }
     }
@@ -145,11 +149,12 @@ export default class App extends React.Component {
         />
         
         <View style={styles.button}>
+
           <Button
             onPress={() => {
-              let outfits = {...this.state.outfits}
-              outfits -=1;
-              this.setState({outfits: outfits});
+              if (outfit){
+                store.update('notselected', {notselected: 1})}
+                console.log('updated')
             }}
             title="Refresh"
           />
@@ -175,11 +180,6 @@ export default class App extends React.Component {
 function TempConverter(t){
   return t * 9/5 - 459.67
 }
-
-function r(){
-    return Math.random() > 0.5
-}
-
 
 function Outfit(props){
   return (
