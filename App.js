@@ -166,7 +166,7 @@ export default class App extends React.Component {
                 let closet = {...this.state.closet};
                 closet[outfit.top] -= 1;
                 closet[outfit.bottom] -= 1;
-                this.setState({closet: closet});
+                this.setState({closet: closet})
               }
             }}
             title="Wear"
