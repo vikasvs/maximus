@@ -111,9 +111,7 @@ export default class App extends React.Component {
   
 
   requirements(outfit) {
-    if (outfit.notselected != 0)
-      return false
-
+  
     return true
   }
 
