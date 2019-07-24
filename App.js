@@ -31,9 +31,10 @@ export default class App extends React.Component {
       formal: 2,
       warmth: 1,
       waterproof: 1,
-      closet: {}
+      closet: {},
+      count: outfits.length
     }
-    this.getWeather
+    this.getWeather()
     store.get("closet")
       .then((closet) => {
          store.save("closet", clothes)
@@ -117,14 +118,17 @@ export default class App extends React.Component {
   }
 
   render() {
+    
     let outfit;
     for (var i = 0; i < outfits.length; i++){
-      if (this.availability(outfits[i]) && this.requirements(outfits[i])) {
-        outfit = outfits[i];
+      let j = (i + this.state.count) % outfits.length;
+      if (this.availability(outfits[j]) && this.requirements(outfits[j])) {
+        outfit = outfits[j];
         console.log(outfit)
         break;
       }
     }
+
 
     return (
       <View style={styles.container}>
@@ -152,15 +156,7 @@ export default class App extends React.Component {
         <View style={styles.button}>
 
           <Button
-            onPress={() => {
-              if (outfit){
-                i += 1
-                console.log('updated')
-                console.log(outfit)
-                let closet = {...this.state.closet};
-                this.setState({closet: closet});
-
-            }}}
+            onPress={() => this.setState({count : outfits.length-1})}
             title="Refresh"
           />
 
