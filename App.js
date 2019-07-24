@@ -121,7 +121,7 @@ export default class App extends React.Component {
     
     let outfit;
     for (var i = 0; i < outfits.length; i++){
-      let j = (i + this.state.count) % outfits.length;
+      var j = (i + this.state.count) % outfits.length;
       if (this.availability(outfits[j]) && this.requirements(outfits[j])) {
         outfit = outfits[j];
         console.log(outfit)
@@ -152,6 +152,7 @@ export default class App extends React.Component {
             style: val,
           })}
         />
+
         
         <View style={styles.button}>
 
