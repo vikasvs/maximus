@@ -7,7 +7,7 @@
 
 
 
-
+{
     /*class Clothing {
         constructor(name, warmth) {
             this.name = name;
