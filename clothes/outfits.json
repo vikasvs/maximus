@@ -10,6 +10,7 @@
         "comfort": 1,
         "formalness":1,
         "waterproof": 1
+
     },
     {
         "top": "olive shirt",
@@ -18,10 +19,10 @@
         "watch" : "vincero",
         "shoes" : "white",
         "style" : 2,
-        "comfort": 2,
+        "comfort": 1,
         "warmth": 3,
         "formalness":1,
-        "waterproof":0
+        "waterproof":1
     },
     {
         "top": "black shirt",

@@ -28,8 +28,7 @@ export default class App extends React.Component {
     this.state = {
       comfort: 2,
       style: 2,
-      formal: 2,
-      warmth: 1,
+      formalness: 2,
       waterproof: 1,
       closet: {},
       count: outfits.length
@@ -101,7 +100,7 @@ export default class App extends React.Component {
   }
 */
   
-  availability(outfit){
+  isAvailable(outfit){
     console.log(outfit)
     if (this.state.closet[outfit.top] < 1 || this.state.closet[outfit.bottom] <1)
       return false
@@ -110,22 +109,41 @@ export default class App extends React.Component {
   }
   
 
-  requirements(outfit) {
-  
-    return true
+  satisfiesRequirements(outfit) {
+    return (outfit.comfort == this.state.comfort) && 
+           (outfit.style == this.state.style) &&
+           (outfit.formalness == this.state.formalness) &&
+           (outfit.waterproof == this.state.waterproof)
+  }
+
+  selectItem(){
+    let outfit;
+    for (var i = 0; i < outfits.length; i++){
+      console.log("the current value of i is")
+      console.log(i)
+      if (this.isAvailable(outfits[i]) && this.satisfiesRequirements(outfits[i])) {
+        outfit = outfits[i];
+        console.log(outfit)
+        return outfit
+      }
+    }
   }
 
   render() {
     
+    let outfit = this.selectItem()
+    /**
     let outfit;
     for (var i = 0; i < outfits.length; i++){
       var j = (i + this.state.count) % outfits.length;
-      if (this.availability(outfits[j]) && this.requirements(outfits[j])) {
+      console.log("the current value of j isAvailable")
+      console.log(j)
+      if (this.isAvailable(outfits[j]) && this.satisfiesRequirements(outfits[j])) {
         outfit = outfits[j];
         console.log(outfit)
         break;
       }
-    }
+    } */
 
 
     return (
@@ -135,14 +153,15 @@ export default class App extends React.Component {
         {outfit 
           ? <Outfit {...outfit} />
           : (<View style={styles.center}>
-              <Text>gdam where are ur clothes u shit</Text>
+              <Text>wash ur clothes dude</Text>
              </View>)
         }
         
-        <Text> Style </Text>
+
+        <Text style={{marginTop: 20}}>Style </Text>
          <Slider 
           style={styles.slider}
-          minimumValue={1}
+          minimumValue={0}
           maximumValue={3}
           step={1}
           value={this.state.style}
@@ -151,11 +170,54 @@ export default class App extends React.Component {
           })}
         />
 
+        <Text> Comfort </Text>
+         <Slider 
+          style={styles.slider}
+          minimumValue={0}
+          maximumValue={3}
+          step={1}
+          value={this.state.style}
+          onSlidingComplete={val => this.setState({ 
+            comfort: val,
+          })}
+        />
+
+        <Text> Formalness </Text>
+         <Slider 
+          style={styles.slider}
+          minimumValue={0}
+          maximumValue={3}
+          step={1}
+          value={this.state.style}
+          onSlidingComplete={val => this.setState({ 
+            formalness: val,
+          })}
+        />
+
+
+        <Text> Waterproof </Text>
+         <Slider 
+          style={styles.slider}
+          minimumValue={0}
+          maximumValue={2}
+          step={1}
+          value={this.state.style}
+          onSlidingComplete={val => this.setState({ 
+            waterproof: val,
+          })}
+        />
+
+
         
         <View style={styles.button}>
 
           <Button
-            onPress={() => this.setState({count : outfits.length-1})}
+            onPress={() => {
+              
+              this.selectItem()
+              let closet = {...this.state.closet};
+              this.setState({closet: closet})
+            }}
             title="Refresh"
           />
 
