@@ -29,10 +29,12 @@ export default class App extends React.Component {
       comfort: 2,
       style: 2,
       formalness: 2,
-      waterproof: 1,
+      waterproof: 2,
       closet: {},
-      count: outfits.length
+      count: outfits.length,
+      seen: []
     }
+    global.var = 0;
     this.getWeather()
     store.get("closet")
       .then((closet) => {
@@ -79,10 +81,8 @@ export default class App extends React.Component {
                                                       maximumAge: 800 });
       var lat = position.coords.latitude;
       var lon = position.coords.longitude;
-      console.log(keys.REACT_APP_WEATHER_API_KEY)
       var api = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${keys.REACT_APP_WEATHER_API_KEY}` 
       var resp = await fetch(api)
-      console.log(resp)
       var post = await resp.json()
       var temp = TempConverter(post.main.temp)
       var minTemp = TempConverter(post.main["temp_min"])
@@ -101,7 +101,6 @@ export default class App extends React.Component {
 */
   
   isAvailable(outfit){
-    console.log(outfit)
     if (this.state.closet[outfit.top] < 1 || this.state.closet[outfit.bottom] <1)
       return false
 
@@ -118,9 +117,7 @@ export default class App extends React.Component {
 
   selectItem(){
     let outfit;
-    for (var i = 0; i < outfits.length; i++){
-      console.log("the current value of i is")
-      console.log(i)
+    for (let i = global.var; i < outfits.length; i +=1) {
       if (this.isAvailable(outfits[i]) && this.satisfiesRequirements(outfits[i])) {
         outfit = outfits[i];
         console.log(outfit)
@@ -128,22 +125,10 @@ export default class App extends React.Component {
       }
     }
   }
-
   render() {
     
     let outfit = this.selectItem()
-    /**
-    let outfit;
-    for (var i = 0; i < outfits.length; i++){
-      var j = (i + this.state.count) % outfits.length;
-      console.log("the current value of j isAvailable")
-      console.log(j)
-      if (this.isAvailable(outfits[j]) && this.satisfiesRequirements(outfits[j])) {
-        outfit = outfits[j];
-        console.log(outfit)
-        break;
-      }
-    } */
+
 
 
     return (
@@ -213,7 +198,7 @@ export default class App extends React.Component {
 
           <Button
             onPress={() => {
-              
+              global.var +=1;
               this.selectItem()
               let closet = {...this.state.closet};
               this.setState({closet: closet})
