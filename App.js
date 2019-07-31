@@ -15,7 +15,7 @@ command option i
 Framework:
 1. Constructor and lifecycle
 2. Wrapper for AsyncStorage and mainting json data
-2. geolocation+weather using API
+2. geolocation+weather using API - update weather API
 4. Basic output of clothes
 5. Algorithm to weight clothing and wather 
 6. UI/Rendering
@@ -26,13 +26,11 @@ export default class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      comfort: 2,
-      style: 2,
-      formalness: 2,
-      waterproof: 2,
+      comfort: 0,
+      style: 0,
+      formalness: 0,
+      waterproof: 0,
       closet: {},
-      count: outfits.length,
-      seen: []
     }
     global.var = 0;
     this.getWeather()
@@ -85,34 +83,52 @@ export default class App extends React.Component {
       var resp = await fetch(api)
       var post = await resp.json()
       var temp = TempConverter(post.main.temp)
-      var minTemp = TempConverter(post.main["temp_min"])
-      var maxTemp = TempConverter(post.main["temp_max"])
       var weather = post.weather[0].description
-      this.setState({temp, minTemp, maxTemp, weather, lat, lon})
+      this.setState({temp, weather, lat, lon})
+      console.log('api working well')
     } catch (e) {
         console.log('api key error')
     }
   }
 
 /**
-  algo(outfit){
-    return (outfit.style === this.state.quality) && (!this.state.temp)
-  }
+needs to integrate warmth + weather in a meaningful manner
+have warmth go from 1-10, and set weather indicators to match 1-10
 */
+  isSuitable(temp){
+    if (temp <= 20)
+      return 8
+    if (temp <= 30)
+      return 7
+    if (temp <= 40)
+      return 6
+    if (temp <= 50)
+      return 5
+    if (temp <= 60)
+      return 4
+    if (temp <= 70)
+      return 3
+    if (temp <= 80)
+      return 2
+    else 
+      return 1
+  }
+
   
   isAvailable(outfit){
     if (this.state.closet[outfit.top] < 1 || this.state.closet[outfit.bottom] <1)
       return false
-
     return true
   }
   
 
   satisfiesRequirements(outfit) {
+    console.log(this.isSuitable(this.state.temp))
     return (outfit.comfort == this.state.comfort) && 
            (outfit.style == this.state.style) &&
            (outfit.formalness == this.state.formalness) &&
-           (outfit.waterproof == this.state.waterproof)
+           (outfit.waterproof == this.state.waterproof) &&
+           (outfit.warmth == this.isSuitable(this.state.temp))
   }
 
   selectItem(){
@@ -122,13 +138,12 @@ export default class App extends React.Component {
         outfit = outfits[i];
         console.log(outfit)
         return outfit
-      }
+      }  
     }
   }
   render() {
     
     let outfit = this.selectItem()
-
 
 
     return (
@@ -154,7 +169,6 @@ export default class App extends React.Component {
             style: val,
           })}
         />
-
         <Text> Comfort </Text>
          <Slider 
           style={styles.slider}
@@ -166,7 +180,6 @@ export default class App extends React.Component {
             comfort: val,
           })}
         />
-
         <Text> Formalness </Text>
          <Slider 
           style={styles.slider}
@@ -178,8 +191,6 @@ export default class App extends React.Component {
             formalness: val,
           })}
         />
-
-
         <Text> Waterproof </Text>
          <Slider 
           style={styles.slider}
