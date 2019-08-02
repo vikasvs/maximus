@@ -56,7 +56,6 @@ export default class App extends React.Component {
     store.update("closet", this.state.closet)
   } 
 
-
 /**stack overflow https://stackoverflow.com/questions/44427908/catch-geolocation-error-async-await*/
   getLocation(options) {
     return new Promise((resolve, reject) => {
@@ -78,7 +77,7 @@ export default class App extends React.Component {
       var api = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${keys.REACT_APP_WEATHER_API_KEY}` 
       var resp = await fetch(api)
       var post = await resp.json()
-      var temp = tempConverter(post.main.temp)
+      var temp = post.main.temp * 9/5 - 459.67
       var weather = post.weather[0].description
       this.setState({temp, weather, lat, lon})
       console.log('api working well')
@@ -139,21 +138,19 @@ have warmth go from 1-10, and set weather indicators to match 1-10
     
     let outfit = this.selectItem()
 
-
     return (
       <View style={styles.container}>
-        <Text style={{marginBottom: 20, fontSize: 16}}> {this.state.temp ? this.state.weather : null}, {Math.round(this.state.temp)}°F </Text>
+        <Text style={{marginBottom: 20, fontSize: 16}}> {this.state.weather}, {Math.round(this.state.temp)}°F </Text>
         
         {outfit ? 
-          <Outfit {...outfit} />
-          : (<View style={styles.center}>
+          <Outfit {...outfit} /> : (<View style={styles.center}>
               <Text>no options</Text>
               <Text> do laundry u legend </Text>
              </View>)
         }
         
 
-        <Text style={{marginTop: 20}}>Style </Text>
+        <Text style={{marginTop: 20}}> Style </Text>
          <Slider 
           style={styles.slider}
           minimumValue={0}
@@ -229,16 +226,12 @@ have warmth go from 1-10, and set weather indicators to match 1-10
   }
 }
 
-function tempConverter(t){
-  return t * 9/5 - 459.67
-}
-
-function Outfit(props){
+function Outfit(outfit){
   return (
     <View>
-      {Object.keys(props).map( key => {
-        if (typeof props[key] === 'string')
-          return <Text style={styles.text} key={key}> {key}: {props[key]} </Text>
+      {Object.keys(outfit).map( key => {
+        if (typeof outfit[key] === 'string')
+          return <Text style={styles.text} key={key}> {key}: {outfit[key]} </Text>
       })}
     </View>
   )
