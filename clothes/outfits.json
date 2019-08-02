@@ -7,7 +7,7 @@
             "watch" : "vincero",
             "shoes" : "white",
         	"style" : 2,
-            "warmth": 2,
+            "warmth": 3,
             "comfort": 1,
             "formalness":1,
             "waterproof": 1
@@ -20,7 +20,7 @@
             "shoes" : "white",
             "style" : 2,
             "comfort": 1,
-            "warmth": 2,
+            "warmth": 3,
             "formalness":1,
             "waterproof":1
         },
@@ -31,9 +31,93 @@
             "watch": "vincero",
             "shoes": "boots",
             "style": 1,
-            "warmth": 2,
+            "warmth": 3,
             "comfort": 3,
             "formalness": 2,
+            "waterproof": 0
+        },
+        {
+            "top": "white shirt",
+            "bottom": "blue jeans",
+            "jacket":"grey cardigan",
+            "watch": "skmei",
+            "shoes": "boots",
+            "style": 2,
+            "warmth": 5,
+            "comfort": 3,
+            "formalness": 1,
+            "waterproof": 0
+        },
+        {
+            "top": "white striped pocket shirt",
+            "bottom": "blue jeans",
+            "jacket":"null",
+            "watch": "skmei",
+            "shoes": "white",
+            "style": 3,
+            "warmth": 3,
+            "comfort": 3,
+            "formalness": 1,
+            "waterproof": 0
+        },
+        {
+            "top": "navy pocket v neck",
+            "bottom": "black jeans",
+            "jacket":"null",
+            "watch": "vincero",
+            "shoes": "white",
+            "style": 2,
+            "warmth": 3,
+            "comfort": 2,
+            "formalness": 1,
+            "waterproof": 0
+        },
+        {
+            "top": "maroon v neck",
+            "bottom": "blue jeans",
+            "jacket":"null",
+            "watch": "skmei",
+            "shoes": "white",
+            "style": 2,
+            "warmth": 3,
+            "comfort": 3,
+            "formalness": 1,
+            "waterproof": 0
+        },
+        {
+            "top": "grey henley",
+            "bottom": "blue jeans",
+            "jacket":"null",
+            "watch": "vincero",
+            "shoes": "boots",
+            "style": 2,
+            "warmth": 3,
+            "comfort": 2,
+            "formalness": 1,
+            "waterproof": 0
+        },
+        {
+            "top": "zahanat long sleeve",
+            "bottom": "black jeans",
+            "jacket":"null",
+            "watch": "vincero",
+            "shoes": "white shoes",
+            "style": 2,
+            "warmth": 6,
+            "comfort": 2,
+            "formalness": 1,
+            "waterproof": 0
+        },
+        {
+            "top": "ralph blue long sleeve",
+            "bottom": "khakis",
+            "jacket":"null",
+            "watch": "skmei",
+            "shoes": "white shoes",
+            "style": 2,
+            "warmth": 6,
+            "comfort": 2,
+            "formalness": 1,
             "waterproof": 0
         }
 ]
