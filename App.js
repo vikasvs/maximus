@@ -4,6 +4,7 @@ import outfits from './clothes/outfits.json';
 import clothes from './clothes/closet.json'; 
 import keys from './keys.js';
 import store from 'react-native-simple-store';
+import Dimensions from 'Dimensions';
 
 /**
 Debbuging:
@@ -139,7 +140,10 @@ have warmth go from 1-10, and set weather indicators to match 1-10
     let outfit = this.selectItem()
 
     return (
-      <View style={styles.container}>
+     <View style={styles.container}>
+
+      <View style = {styles.content}>
+
         <Text style={{marginBottom: 20, fontSize: 16}}> {this.state.weather}, {Math.round(this.state.temp)}°F </Text>
         
         {outfit ? 
@@ -149,8 +153,11 @@ have warmth go from 1-10, and set weather indicators to match 1-10
              </View>)
         }
         
+      </View>
 
-        <Text style={{marginTop: 20}}> Style </Text>
+      <View style = {styles.toggles}>
+
+        <Text style={{marginTop:50}}> Style </Text>
          <Slider 
           style={styles.slider}
           minimumValue={0}
@@ -196,30 +203,31 @@ have warmth go from 1-10, and set weather indicators to match 1-10
         />
 
 
-        <View style={styles.button}>
+          <View style={styles.button}>
 
-          <Button
-            onPress={() => {
-              global.var +=1;
-              this.selectItem()
-              let closet = {...this.state.closet};
-              this.setState({closet: closet})
-            }}
-            title="Recycle"
-          />
-
-          <Button
-            onPress={() => {
-              if (outfit){
+            <Button
+              onPress={() => {
+                global.var +=1;
+                this.selectItem()
                 let closet = {...this.state.closet};
-                closet[outfit.top] -= 1;
-                closet[outfit.bottom] -= 1;
                 this.setState({closet: closet})
-              }
-            }}
-            title="Wear"
-          />
-          
+              }}
+              title="Recycle"
+            />
+
+            <Button
+              onPress={() => {
+                if (outfit){
+                  let closet = {...this.state.closet};
+                  closet[outfit.top] -= 1;
+                  closet[outfit.bottom] -= 1;
+                  this.setState({closet: closet})
+                }
+              }}
+              title="Wear"
+            />
+            
+          </View>
         </View>
       </View>
     );
@@ -239,13 +247,21 @@ function Outfit(outfit){
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    flex:1,
+  },
+  content:{
+    height:270,
     alignItems: 'center',
+    backgroundColor:'#faba98',
     justifyContent: 'center',
   },
-  center: {
+  toggles: {
+    flex:2,
     alignItems: 'center',
+    backgroundColor: 'white',
+  },
+  center: {
+    alignItems: 'center'
   },
   button: {
     flexDirection: 'row',
