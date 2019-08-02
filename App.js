@@ -10,7 +10,6 @@ Debbuging:
 enable remote debug in JS
 command option i
 /*
-
 /**
 Framework:
 1. Constructor and lifecycle
@@ -41,13 +40,11 @@ export default class App extends React.Component {
       console.log("opening closet")
       this.setState({closet: closet})
     })
-    .catch(error => console.error(error.message));
+    .catch(error => console.error("could not find closet"));
   }
-
 
   getClothesData = () => {
     this.setState({closet: clothes})
-
   }
 
   componentDidMount() {
@@ -55,10 +52,8 @@ export default class App extends React.Component {
     this.getClothesData()
   }
 
-  
   componentWillUnmount(){
     store.update("closet", this.state.closet)
-    /** need to update closet - not sure how to get a wrapper for data yet*/
   } 
 
 
@@ -74,6 +69,7 @@ export default class App extends React.Component {
 
   async getWeather(){
     try {
+      /**https://stackoverflow.com/questions/55235815/accessing-current-location-and-sending-that-to-firebase*/
       let position = await this.getLocation({ enableHighAccuracy: true, 
                                                       timeout: 20000, 
                                                       maximumAge: 800 });
@@ -82,7 +78,7 @@ export default class App extends React.Component {
       var api = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${keys.REACT_APP_WEATHER_API_KEY}` 
       var resp = await fetch(api)
       var post = await resp.json()
-      var temp = TempConverter(post.main.temp)
+      var temp = tempConverter(post.main.temp)
       var weather = post.weather[0].description
       this.setState({temp, weather, lat, lon})
       console.log('api working well')
@@ -113,7 +109,6 @@ have warmth go from 1-10, and set weather indicators to match 1-10
     else 
       return 1
   }
-
   
   isAvailable(outfit){
     if (this.state.closet[outfit.top] < 1 || this.state.closet[outfit.bottom] <1)
@@ -121,14 +116,13 @@ have warmth go from 1-10, and set weather indicators to match 1-10
     return true
   }
   
-
   satisfiesRequirements(outfit) {
-    console.log(this.isSuitable(this.state.temp))
+    console.log(outfit)
     return (outfit.comfort == this.state.comfort) && 
            (outfit.style == this.state.style) &&
-           (outfit.formalness == this.state.formalness) &&
-           (outfit.waterproof == this.state.waterproof) &&
-           (outfit.warmth == this.isSuitable(this.state.temp))
+           (outfit.formalness == this.state.formalness)  &&
+           (outfit.warmth == this.isSuitable(this.state.temp))&&
+           (outfit.waterproof == this.state.waterproof) 
   }
 
   selectItem(){
@@ -150,10 +144,11 @@ have warmth go from 1-10, and set weather indicators to match 1-10
       <View style={styles.container}>
         <Text style={{marginBottom: 20, fontSize: 16}}> {this.state.temp ? this.state.weather : null}, {Math.round(this.state.temp)}°F </Text>
         
-        {outfit 
-          ? <Outfit {...outfit} />
+        {outfit ? 
+          <Outfit {...outfit} />
           : (<View style={styles.center}>
-              <Text>wash ur clothes dude</Text>
+              <Text>no options</Text>
+              <Text> do laundry u legend </Text>
              </View>)
         }
         
@@ -175,7 +170,7 @@ have warmth go from 1-10, and set weather indicators to match 1-10
           minimumValue={0}
           maximumValue={3}
           step={1}
-          value={this.state.style}
+          value={this.state.comfort}
           onSlidingComplete={val => this.setState({ 
             comfort: val,
           })}
@@ -186,7 +181,7 @@ have warmth go from 1-10, and set weather indicators to match 1-10
           minimumValue={0}
           maximumValue={3}
           step={1}
-          value={this.state.style}
+          value={this.state.formalness}
           onSlidingComplete={val => this.setState({ 
             formalness: val,
           })}
@@ -197,14 +192,13 @@ have warmth go from 1-10, and set weather indicators to match 1-10
           minimumValue={0}
           maximumValue={2}
           step={1}
-          value={this.state.style}
+          value={this.state.waterproof}
           onSlidingComplete={val => this.setState({ 
             waterproof: val,
           })}
         />
 
 
-        
         <View style={styles.button}>
 
           <Button
@@ -214,7 +208,7 @@ have warmth go from 1-10, and set weather indicators to match 1-10
               let closet = {...this.state.closet};
               this.setState({closet: closet})
             }}
-            title="Refresh"
+            title="Recycle"
           />
 
           <Button
@@ -235,7 +229,7 @@ have warmth go from 1-10, and set weather indicators to match 1-10
   }
 }
 
-function TempConverter(t){
+function tempConverter(t){
   return t * 9/5 - 459.67
 }
 
