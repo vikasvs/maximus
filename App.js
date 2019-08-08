@@ -141,60 +141,64 @@ have warmth go from 1-10, and set weather indicators to match 1-10
 
     return (
      <View style={styles.container}>
-
       <View style = {styles.content}>
-
-        <Text style={{marginBottom: 20, fontSize: 16}}> {this.state.weather}, {Math.round(this.state.temp)}°F </Text>
-        
+        <View style={{marginTop:70}}>
+          <Text style={{marginBottom: 30, fontSize: 17, color: "white",}}> {this.state.weather}, {Math.round(this.state.temp)}°F </Text>
+        </View>
         {outfit ? 
           <Outfit {...outfit} /> : (<View style={styles.center}>
-              <Text>no options</Text>
-              <Text> do laundry u legend </Text>
+              <Text style= {{color:"white",fontSize: 18}}>no options</Text>
+              <Text style= {{color:"white", fontSize: 18}}> do laundry u legend </Text>
              </View>)
         }
-        
+
       </View>
+
 
       <View style = {styles.toggles}>
 
-        <Text style={{marginTop:50}}> Style </Text>
+        <Text style={{marginTop:70, fontSize:17}}> Style </Text>
          <Slider 
           style={styles.slider}
           minimumValue={0}
           maximumValue={3}
+          minimumTrackTintColor="#2b787a"
           step={1}
           value={this.state.style}
           onSlidingComplete={val => this.setState({ 
             style: val,
           })}
         />
-        <Text> Comfort </Text>
+        <Text style={{marginTop:10, fontSize:17}}> Comfort </Text>
          <Slider 
           style={styles.slider}
           minimumValue={0}
           maximumValue={3}
+          minimumTrackTintColor="#2b787a"          
           step={1}
           value={this.state.comfort}
           onSlidingComplete={val => this.setState({ 
             comfort: val,
           })}
         />
-        <Text> Formalness </Text>
+        <Text style={{marginTop:10, fontSize:17}}> Formalness </Text>
          <Slider 
           style={styles.slider}
           minimumValue={0}
           maximumValue={3}
+          minimumTrackTintColor="#2b787a"          
           step={1}
           value={this.state.formalness}
           onSlidingComplete={val => this.setState({ 
             formalness: val,
           })}
         />
-        <Text> Waterproof </Text>
+        <Text style={{marginTop:10, fontSize:17}}> Waterproof </Text>
          <Slider 
           style={styles.slider}
           minimumValue={0}
           maximumValue={2}
+          minimumTrackTintColor="#2b787a"
           step={1}
           value={this.state.waterproof}
           onSlidingComplete={val => this.setState({ 
@@ -202,7 +206,7 @@ have warmth go from 1-10, and set weather indicators to match 1-10
           })}
         />
 
-
+        <View style={{marginTop:30}}>
           <View style={styles.button}>
 
             <Button
@@ -213,10 +217,12 @@ have warmth go from 1-10, and set weather indicators to match 1-10
                 this.setState({closet: closet})
               }}
               title="Recycle"
+              color = "#2b787a"
+              fontWeight = "bold"
             />
 
             <Button
-              onPress={() => {
+               onPress={() => {
                 if (outfit){
                   let closet = {...this.state.closet};
                   closet[outfit.top] -= 1;
@@ -225,7 +231,11 @@ have warmth go from 1-10, and set weather indicators to match 1-10
                 }
               }}
               title="Wear"
+              color = "#2b787a"
+
+
             />
+            </View>
             
           </View>
         </View>
@@ -246,13 +256,14 @@ function Outfit(outfit){
 }
 
 const styles = StyleSheet.create({
+
   container: {
     flex:1,
   },
   content:{
     height:270,
     alignItems: 'center',
-    backgroundColor:'#faba98',
+    backgroundColor:'#2b787a',
     justifyContent: 'center',
   },
   toggles: {
@@ -261,15 +272,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   center: {
-    alignItems: 'center'
+    alignItems: 'center',
   },
+  /**#faba98*/
   button: {
     flexDirection: 'row',
+    color: '#2b787a',
   },
   slider: {
-    width: 190
+    width: 190,
   },
   text: {
-    fontSize: 16
+    fontSize: 17
   }
 });
