@@ -33,6 +33,7 @@ export default class App extends React.Component {
       closet: {},
     }
     global.var = 0;
+    global.savedState = [];
     this.getWeather()
     store.get("closet")
       .then((closet) => {
@@ -117,7 +118,6 @@ have warmth go from 1-10, and set weather indicators to match 1-10
   }
   
   satisfiesRequirements(outfit) {
-    console.log(outfit)
     return (outfit.comfort == this.state.comfort) && 
            (outfit.style == this.state.style) &&
            (outfit.formalness == this.state.formalness)  &&
@@ -125,10 +125,26 @@ have warmth go from 1-10, and set weather indicators to match 1-10
            (outfit.waterproof == this.state.waterproof) 
   }
 
+  saveItem(){
+    var savedComfort = this.state.comfort;
+    var savedStyle = this.state.style;
+    var savedFormalness = this.state.formalness;
+    var savedWaterproof = this.state.waterproof;
+    var saved = [savedComfort,savedStyle,savedFormalness,savedWaterproof];
+    return saved
+  }
   selectItem(){
     let outfit;
+
+    if (JSON.stringify(global.savedState) != JSON.stringify(this.saveItem())) {
+      console.log("new parameters")
+      global.var = 0;
+    }
+
     for (let i = global.var; i < outfits.length; i +=1) {
       if (this.isAvailable(outfits[i]) && this.satisfiesRequirements(outfits[i])) {
+        global.savedState = this.saveItem();
+        global.var = i;
         outfit = outfits[i];
         console.log(outfit)
         return outfit
@@ -142,13 +158,13 @@ have warmth go from 1-10, and set weather indicators to match 1-10
     return (
      <View style={styles.container}>
       <View style = {styles.content}>
-        <View style={{marginTop:70}}>
-          <Text style={{marginBottom: 30, fontSize: 17, color: "white",}}> {this.state.weather}, {Math.round(this.state.temp)}°F </Text>
+        <View style={{marginTop:70, marginBottom: 30}}>
+          <Text style={styles.text}> {this.state.weather}, {Math.round(this.state.temp)}°F </Text>
         </View>
-        {outfit ? 
+        {outfit ?
           <Outfit {...outfit} /> : (<View style={styles.center}>
-              <Text style= {{color:"white",fontSize: 18}}>no options</Text>
-              <Text style= {{color:"white", fontSize: 18}}> do laundry u legend </Text>
+              <Text style={styles.text}>no possible options</Text>
+              <Text style={styles.text}> do laundry</Text>
              </View>)
         }
 
@@ -157,7 +173,7 @@ have warmth go from 1-10, and set weather indicators to match 1-10
 
       <View style = {styles.toggles}>
 
-        <Text style={{marginTop:70, fontSize:17}}> Style </Text>
+        <Text style={{marginTop:70, fontSize:17, fontFamily: "Avenir-Roman"}}> Style </Text>
          <Slider 
           style={styles.slider}
           minimumValue={0}
@@ -169,7 +185,7 @@ have warmth go from 1-10, and set weather indicators to match 1-10
             style: val,
           })}
         />
-        <Text style={{marginTop:10, fontSize:17}}> Comfort </Text>
+        <Text style={{marginTop:10, fontSize:17, fontFamily: "Avenir-Roman"}}> Comfort </Text>
          <Slider 
           style={styles.slider}
           minimumValue={0}
@@ -181,7 +197,7 @@ have warmth go from 1-10, and set weather indicators to match 1-10
             comfort: val,
           })}
         />
-        <Text style={{marginTop:10, fontSize:17}}> Formalness </Text>
+        <Text style={{marginTop:10, fontSize:17, fontFamily: "Avenir-Roman"}}> Formalness </Text>
          <Slider 
           style={styles.slider}
           minimumValue={0}
@@ -193,7 +209,7 @@ have warmth go from 1-10, and set weather indicators to match 1-10
             formalness: val,
           })}
         />
-        <Text style={{marginTop:10, fontSize:17}}> Waterproof </Text>
+        <Text style={{marginTop:10, fontSize:17, fontFamily: "Avenir-Roman"}}> Waterproof </Text>
          <Slider 
           style={styles.slider}
           minimumValue={0}
@@ -211,14 +227,14 @@ have warmth go from 1-10, and set weather indicators to match 1-10
 
             <Button
               onPress={() => {
-                global.var +=1;
+                global.var += 1;
                 this.selectItem()
                 let closet = {...this.state.closet};
                 this.setState({closet: closet})
               }}
               title="Recycle"
               color = "#2b787a"
-              fontWeight = "bold"
+              fontFamily = "Avenir-Roman"
             />
 
             <Button
@@ -232,6 +248,7 @@ have warmth go from 1-10, and set weather indicators to match 1-10
               }}
               title="Wear"
               color = "#2b787a"
+              fontFamily =  "Avenir-Roman"
 
 
             />
@@ -261,7 +278,7 @@ const styles = StyleSheet.create({
     flex:1,
   },
   content:{
-    height:270,
+    height:290,
     alignItems: 'center',
     backgroundColor:'#2b787a',
     justifyContent: 'center',
@@ -283,6 +300,8 @@ const styles = StyleSheet.create({
     width: 190,
   },
   text: {
-    fontSize: 17
+    fontSize: 17,
+    fontFamily: "Avenir-Roman",
+    color: "white"
   }
 });

@@ -55,7 +55,7 @@
             "watch": "skmei",
             "shoes": "white",
             "style": 3,
-            "warmth": 3,
+            "warmth": 2,
             "comfort": 3,
             "formalness": 1,
             "waterproof": 0
@@ -79,8 +79,8 @@
             "watch": "skmei",
             "shoes": "white",
             "style": 2,
-            "warmth": 3,
-            "comfort": 3,
+            "warmth": 2,
+            "comfort": 2,
             "formalness": 1,
             "waterproof": 0
         },
@@ -91,7 +91,7 @@
             "watch": "vincero",
             "shoes": "boots",
             "style": 2,
-            "warmth": 3,
+            "warmth": 2,
             "comfort": 2,
             "formalness": 1,
             "waterproof": 0
@@ -119,5 +119,17 @@
             "comfort": 2,
             "formalness": 1,
             "waterproof": 0
-        }
+        },
+        {
+            "top": "poplin light blue button down",
+            "bottom": "blue jeans",
+            "jacket":"null",
+            "watch": "skmei",
+            "shoes": "sperry's",
+            "style": 3,
+            "warmth": 4,
+            "comfort": 1,
+            "formalness": 2,
+            "waterproof": 0
+        },
 ]
