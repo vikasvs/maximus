@@ -6,21 +6,6 @@ import keys from './keys.js';
 import store from 'react-native-simple-store';
 import Dimensions from 'Dimensions';
 
-/**
-Debbuging:
-enable remote debug in JS
-command option i
-/*
-/**
-Framework:
-1. Constructor and lifecycle
-2. Wrapper for AsyncStorage and mainting json data
-2. geolocation+weather using API - update weather API
-4. Basic output of clothes
-5. Algorithm to weight clothing and wather 
-6. UI/Rendering
-*/
-
 
 export default class App extends React.Component {
   constructor() {
