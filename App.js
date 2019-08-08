@@ -4,8 +4,8 @@ import outfits from './clothes/outfits.json';
 import clothes from './clothes/closet.json'; 
 import keys from './keys.js';
 import store from 'react-native-simple-store';
-import Dimensions from 'Dimensions';
 
+/** shoutout to mpars for UI critiques*/
 
 export default class App extends React.Component {
   constructor() {
@@ -19,6 +19,8 @@ export default class App extends React.Component {
     }
     global.var = 0;
     global.savedState = [];
+
+
     this.getWeather()
     store.get("closet")
       .then((closet) => {
@@ -110,7 +112,7 @@ have warmth go from 1-10, and set weather indicators to match 1-10
            (outfit.waterproof == this.state.waterproof) 
   }
 
-  saveItem(){
+  saveParameters(){
     var savedComfort = this.state.comfort;
     var savedStyle = this.state.style;
     var savedFormalness = this.state.formalness;
@@ -121,14 +123,14 @@ have warmth go from 1-10, and set weather indicators to match 1-10
   selectItem(){
     let outfit;
 
-    if (JSON.stringify(global.savedState) != JSON.stringify(this.saveItem())) {
+    if (JSON.stringify(global.savedState) != JSON.stringify(this.saveParameters())) {
       console.log("new parameters")
       global.var = 0;
     }
 
     for (let i = global.var; i < outfits.length; i +=1) {
       if (this.isAvailable(outfits[i]) && this.satisfiesRequirements(outfits[i])) {
-        global.savedState = this.saveItem();
+        global.savedState = this.saveParameters();
         global.var = i;
         outfit = outfits[i];
         console.log(outfit)
@@ -146,6 +148,7 @@ have warmth go from 1-10, and set weather indicators to match 1-10
         <View style={{marginTop:70, marginBottom: 30}}>
           <Text style={styles.text}> {this.state.weather}, {Math.round(this.state.temp)}°F </Text>
         </View>
+        
         {outfit ?
           <Outfit {...outfit} /> : (<View style={styles.center}>
               <Text style={styles.text}>no possible options</Text>
@@ -155,9 +158,7 @@ have warmth go from 1-10, and set weather indicators to match 1-10
 
       </View>
 
-
       <View style = {styles.toggles}>
-
         <Text style={{marginTop:70, fontSize:17, fontFamily: "Avenir-Roman"}}> Style </Text>
          <Slider 
           style={styles.slider}
@@ -209,7 +210,6 @@ have warmth go from 1-10, and set weather indicators to match 1-10
 
         <View style={{marginTop:30}}>
           <View style={styles.button}>
-
             <Button
               onPress={() => {
                 global.var += 1;
@@ -234,11 +234,8 @@ have warmth go from 1-10, and set weather indicators to match 1-10
               title="Wear"
               color = "#2b787a"
               fontFamily =  "Avenir-Roman"
-
-
             />
             </View>
-            
           </View>
         </View>
       </View>
@@ -276,7 +273,6 @@ const styles = StyleSheet.create({
   center: {
     alignItems: 'center',
   },
-  /**#faba98*/
   button: {
     flexDirection: 'row',
     color: '#2b787a',

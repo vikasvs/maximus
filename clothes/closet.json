@@ -16,7 +16,7 @@
     "blue button down": 3,
     "pink gingham button down": 3,
     "poplin light blue button down": 3,
-    "maroon button down*": 3,
+    "maroon button down": 3,
     "maroon plaid button down": 3,
     "white floral button down": 3,
     "red flannel": 5,
@@ -43,11 +43,11 @@
     "bmun patagonia": 10,
     "olive shirt jacket": 20,
     "bmun rain jacket":20,
-    "green zahanat rain jacket":20,
+    "green Z rain jacket":20,
     "cal hoodie": 10,
 
     "peacoat": 30,
-    "jcrew navy field mechanic jacket": 30,
+    "navy field mechanic jacket": 30,
     "black MO jacket": 20
 
 }
