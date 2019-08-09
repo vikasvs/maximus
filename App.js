@@ -6,6 +6,15 @@ import keys from './keys.js';
 import store from 'react-native-simple-store';
 
 /** shoutout to mpars for UI critiques*/
+/*
+TODO
+display mintemp and maxtemp to allow for day of decision
+add more outfits for 70-80 degree weather
+add a reset button
+*/
+
+
+
 
 export default class App extends React.Component {
   constructor() {
