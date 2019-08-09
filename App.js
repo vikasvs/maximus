@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Slider } from 'react-native';
 import outfits from './clothes/outfits.json'; 
-import clothes from './clothes/closet.json'; 
+import freshClothes from './clothes/closet.json'; 
 import keys from './keys.js';
 import store from 'react-native-simple-store';
 
@@ -33,8 +33,8 @@ export default class App extends React.Component {
     this.getWeather()
     store.get("closet")
       .then((closet) => {
-         store.save("closet", clothes)
-         closet = clothes;
+         store.save("closet", freshClothes)
+         closet = freshClothes;
       console.log("opening closet")
       this.setState({closet: closet})
     })
@@ -42,7 +42,7 @@ export default class App extends React.Component {
   }
 
   getClothesData = () => {
-    this.setState({closet: clothes})
+    this.setState({closet: freshClothes})
   }
 
   componentDidMount() {
@@ -232,7 +232,7 @@ have warmth go from 1-10, and set weather indicators to match 1-10
             />
 
             <Button
-               onPress={() => {
+              onPress={() => {
                 if (outfit){
                   let closet = {...this.state.closet};
                   closet[outfit.top] -= 1;
@@ -244,9 +244,21 @@ have warmth go from 1-10, and set weather indicators to match 1-10
               color = "#2b787a"
               fontFamily =  "Avenir-Roman"
             />
-            </View>
+
+            <Button
+              onPress={() => {
+                this.setState({
+                  inventory: freshClothes,
+                })
+              }}
+              title="Reset"
+              color = "#2b787a"
+              fontFamily =  "Avenir-Roman"
+            />
+            
           </View>
         </View>
+      </View>
       </View>
     );
   }
