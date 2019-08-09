@@ -21,4 +21,3 @@ If you would like to use Oliver follow these steps
 <p align="center">
   <img src="https://vikasvs.s3.amazonaws.com/IMG_5713.mov" width="350"/>
 </p>
-
