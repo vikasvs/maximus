@@ -5,6 +5,10 @@ You create the outfits and input them into the database. Once they are in the da
 
 You can customize how many times you would wear an article of clothing, and after its been worn that many times it will be removed from the database until you do your laundry(in which case you can hit reset). If you dont like the choice for the day just hit recycle and new options will show up.
 
+<p align="center">
+  <img src="https://vikasvs.s3.amazonaws.com/oliver.gif" width="350"/>
+</p>
+
 ## How to use?
 If you would like to use Oliver follow these steps
 1) Clone this repo
@@ -17,7 +21,4 @@ If you would like to use Oliver follow these steps
 8) Whenever you login on your phone you will see Oliver and can use it
 
 ## API Reference
-
-<p align="center">
-  <img src="https://vikasvs.s3.amazonaws.com/oliver.gif" width="350"/>
-</p>
+api.openweathermap.org
