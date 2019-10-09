@@ -1,4 +1,4 @@
-# Oliver, formerly known as maximus
+# Oliver
 Oliver will recomend outfits for you depending on the weather and some preferences that include: formalness, style, waterproof, and comfort.
 
 You create the outfits and input them into the database. Once they are in the database Oliver keeps track of the outfits allowing you to recycle or wear outfits and have the action be reflected in the database. 
